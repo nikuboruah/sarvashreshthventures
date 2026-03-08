@@ -118,7 +118,7 @@ $ref = isset($_GET['userid']) ? $_GET['userid'] : '';
                                             <div class="col-12">
                                                 <div class="form-check form-switch form-switch-success">
                                                     <input class="form-check-input" type="checkbox" id="customSwitchSuccess" required>
-                                                    <label class="form-check-label" for="customSwitchSuccess">By registering you agree to the Sarvashreshth Ventures <a href="#" class="text-primary">Terms of Conditions</a></label>
+                                                    <label class="form-check-label" for="customSwitchSuccess">By registering you agree to the Sarvashreshth Ventures <a target="_blank" href="<?= base_url('terms_and_condition') ?>" class="text-primary">Terms of Conditions</a></label>
                                                 </div>
                                             </div><!--end col--> 
                                         </div><!--end form-group--> 

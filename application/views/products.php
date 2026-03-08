@@ -84,7 +84,7 @@
                     <div class="flex items-center gap-x-4 shrink-0 justify-start">
                         <div class="lg:flex hidden">
                             <p class="text-light-secondary-text">
-                                Showing 1-12 of 16 results
+                                Products
                             </p>
                         </div>
                     </div>

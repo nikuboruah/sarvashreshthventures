@@ -94,7 +94,7 @@
                         </li>
                         <li>
                             <a class="<?= $PAGE == 'Documents' ? 'active' : '' ?>"
-                                href="<?= base_url("documemts") ?>">Documents</a>
+                                href="<?= base_url("documents") ?>">Documents</a>
                         </li>
                         <li><a class="<?= $PAGE == 'Contact' ? 'active' : '' ?>"
                                 href="<?= base_url("contact") ?>">Contact</a></li>
