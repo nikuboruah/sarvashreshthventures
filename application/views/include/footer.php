@@ -152,14 +152,14 @@
      <div class="container">
          <ul class="flex items-center justify-between footer-bottom-nav -mt-px">
              <li class="group">
-                 <a class='footer-bottom-nav-btn flex items-center flex-col gap-y-1 border-t-2 border-transparent text-sm leading-[22px] text-light-primary-text px-[9px] pt-2.5 pb-1 active'
+                 <a class='footer-bottom-nav-btn flex items-center flex-col gap-y-1 border-t-2 border-transparent text-sm leading-[22px] text-light-primary-text px-[9px] pt-2.5 pb-1 <?= $PAGE == 'Home' ? 'active' : '' ?>'
                      href='<?= base_url('') ?>'><span class="inline-flex items-center justify-center">
                          <i
                              class="hgi hgi-stroke hgi-home-01 text-2xl leading-6 text-light-primary-text"></i></span>Home</a>
              </li>
              <li class="group">
-                 <a class='footer-bottom-nav-btn flex items-center flex-col gap-y-1 border-t-2 border-transparent text-sm leading-[22px] text-light-primary-text px-[9px] pt-2.5 pb-1'
-                     href='<?= base_url('') ?>'><span class="inline-flex items-center justify-center">
+                 <a class='footer-bottom-nav-btn flex items-center flex-col gap-y-1 border-t-2 border-transparent text-sm leading-[22px] text-light-primary-text px-[9px] pt-2.5 pb-1 <?= $PAGE == 'Products' ? 'active' : '' ?>'
+                     href='<?= base_url('products') ?>'><span class="inline-flex items-center justify-center">
                          <i
                              class="hgi hgi-stroke hgi-package-moving text-2xl leading-6 text-light-primary-text"></i></span>Products</a>
              </li>
