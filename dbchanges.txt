@@ -1,0 +1,35 @@
+update users set is_payment_distributed=0, silver_amount_distributed=0, gold_amount_distributed=0;
+
+update wallet set available=0, ad_wallet=0, level_wallet=0, silver_wallet=0, gold_wallet=0, total_balance=0, lost_balance=0;
+
+TRUNCATE `brightwings`.`daily_wallet_income`;
+
+TRUNCATE `payments`;
+
+TRUNCATE `recurring_income`;
+
+TRUNCATE `transaction_history`;
+
+TRUNCATE `withdrawl_requests`;
+
+run AdIncomeToWalletTemporary.php
+
+### should match ###
+
+select sum(ad_wallet) from wallet;
+
+SELECT sum(total_count) from ad_money;
+
+### should match ###
+
+run direct, silver, gold income file
+
+run AdWalletToMainWallet.php file
+
+back date to first recurring recurring_income
+
+run PayRecurringIncome.php file everyday from that day
+
+update wallet set total_balance=available;
+
+

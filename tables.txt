@@ -1,0 +1,76 @@
+####################### CREATE FOLDER #######################
+
+folder name: autopool_proofs
+path: /var/www/html/brightwings/user/uploads/autopool_proofs
+
+####################### EXECUTE THESE QUERIES #######################
+
+CREATE TABLE `autopool_claims` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `epin` varchar(200) NOT NULL,
+ `main_rank` int NOT NULL,
+ `members` int NOT NULL,
+ `price` decimal(55,2) NOT NULL,
+ `is_claimed` int NOT NULL DEFAULT '0',
+ `autopool_level` enum('500','1000') NOT NULL DEFAULT '500',
+ `added_date` date NOT NULL,
+ `added_time` time NOT NULL,
+ `status` int NOT NULL DEFAULT '1',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `autopool_counter_500` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `epin` varchar(200) DEFAULT NULL,
+ `first_epin` varchar(200) DEFAULT NULL,
+ `second_epin` varchar(200) DEFAULT NULL,
+ `third_epin` varchar(200) DEFAULT NULL,
+ `total_in_first` int DEFAULT '0',
+ `total_in_second` int DEFAULT '0',
+ `total_in_third` int DEFAULT '0',
+ `updated_date` date DEFAULT NULL,
+ `updated_time` time DEFAULT NULL,
+ `total_received_ranks` int NOT NULL DEFAULT '0',
+ `status` int DEFAULT '1',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `autopool_counter_1000` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `epin` varchar(200) DEFAULT NULL,
+ `first_epin` varchar(200) DEFAULT NULL,
+ `second_epin` varchar(200) DEFAULT NULL,
+ `third_epin` varchar(200) DEFAULT NULL,
+ `total_in_first` int DEFAULT '0',
+ `total_in_second` int DEFAULT '0',
+ `total_in_third` int DEFAULT '0',
+ `updated_date` date DEFAULT NULL,
+ `updated_time` time DEFAULT NULL,
+ `total_received_ranks` int NOT NULL DEFAULT '0',
+ `status` int DEFAULT '1',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `autopool_levels` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `members` int NOT NULL,
+ `price` decimal(55,2) NOT NULL DEFAULT '0.00',
+ `total` decimal(55,2) NOT NULL DEFAULT '0.00',
+ `status` int NOT NULL DEFAULT '1',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `autopool_upgrade_requests` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `epin` varchar(200) NOT NULL,
+ `request_for` varchar(200) NOT NULL,
+ `amount_paid` decimal(55,2) NOT NULL,
+ `paid_using` varchar(200) NOT NULL,
+ `proof_link` varchar(200) DEFAULT NULL,
+ `requested_on` bigint NOT NULL,
+ `rejected_reason` varchar(200) DEFAULT NULL,
+ `status` int NOT NULL COMMENT '0 for pending, 1 for approved, 2 for rejected',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+ALTER TABLE `users` ADD `is_autopool_joined_500` INT(11) NOT NULL DEFAULT '0' AFTER `is_gold_alert`, ADD `is_autopool_joined_1000` INT(11) NOT NULL DEFAULT '0' AFTER `is_autopool_joined_500`;
