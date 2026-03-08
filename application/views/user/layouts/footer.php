@@ -19,13 +19,13 @@
         <script src="<?= base_url('') ?>portal_assets/libs/feather-icons/feather.min.js"></script>
 
         <script src="<?= base_url('') ?>portal_assets/libs/apexcharts/apexcharts.min.js"></script>
-        <script src="<?= base_url('') ?>portal_assets/js/pages/analytics-index.init.js"></script>
+        <script src="<?= base_url('') ?>portal_assets/JS/pages/analytics-index.init.js"></script>
 
         <script src="<?= base_url('') ?>portal_assets/libs/simple-datatables/umd/simple-datatables.js"></script>
-        <script src="<?= base_url('') ?>portal_assets/js/pages/datatable.init.js"></script>
+        <script src="<?= base_url('') ?>portal_assets/JS/pages/datatable.init.js"></script>
 
         <!-- App js -->
-        <script src="<?= base_url('') ?>portal_assets/js/app.js"></script>
+        <script src="<?= base_url('') ?>portal_assets/JS/app.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     </body>
