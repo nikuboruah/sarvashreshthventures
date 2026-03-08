@@ -40,8 +40,7 @@
                     <p class="pt-4 pb-0.5 font-semibold text-light-primary-text">
                         Email
                     </p>
-                    <p>sarvashreshthventures23@gmail.com</p>
-                    <p>info@sarvashreshthventures.com</p>
+                    <p>sarvashreshth23@gmail.com</p>
                 </div>
             </div>
             <div class="md:col-span-6 col-span-12 xl:col-span-3 p-6 border-gray-300 border rounded-2xl wow animate__animated animate__fadeInUp"

@@ -129,7 +129,7 @@
                                  class="hgi hgi-stroke hgi-mail-02 text-2xl text-primary-lighter"></i>
                          </span>
                          <p class="text-primary-lighter font-semibold">
-                             sarvashreshthventures23@gmail.com
+                             sarvashreshth23@gmail.com
                          </p>
                      </li>
                  </ul>

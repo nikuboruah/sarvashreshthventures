@@ -74,10 +74,34 @@
             </div>
 
 
+            <?php
+$total_points = $CUSTOMER_DETAILS[0]->total_points;
+
+$ranks = [
+    ["TEAM STAR",5],
+    ["TEAM BUILDER",15],
+    ["TEAM CONSULTANT",35],
+    ["TEAM DIRECTOR",75],
+    ["RUBY DIRECTOR",150],
+    ["EMERALD DIRECTOR",400],
+    ["SAPPHIRE DIRECTOR",900],
+    ["DIAMOND DIRECTOR",1900],
+    ["BLACK DIAMOND DIR",4400],
+    ["BLUE DIAMOND DIR",9400],
+    ["PINK DIAMOND DIR",19400],
+    ["PRESIDENTIAL DIAMOND",44400],
+    ["GLOBAL DIAMOND",94400],
+    ["CROWN DIAMOND",194400],
+];
+
+$prev = 0;
+?>
+
             <div class="card px-2 mb-3">
                 <div class="row mt-2 mb-2">
                     <div class="col-lg-12">
                         <div class="table-responsive">
+
                             <table class="table table-bordered">
                                 <thead class="bg-light">
                                     <tr>
@@ -87,149 +111,35 @@
                                         <th>Rank Status</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
+
+                                    <?php foreach($ranks as $rank){ 
+    $name = $rank[0];
+    $limit = $rank[1];
+    $volume = $limit - $prev;
+
+    if($total_points >= $limit){
+        $your_points = $volume;
+        $status = '<span class="badge bg-success">Achieved</span>';
+    }else{
+        $your_points = max(0, $total_points - $prev);
+        $status = '<span class="badge bg-secondary">Processing...</span>';
+    }
+?>
+
                                     <tr>
-                                        <td>TEAM STAR</td>
-                                        <td>5</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 5 ? 5 : $CUSTOMER_DETAILS[0]->total_points ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=5){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
+                                        <td><?= $name ?></td>
+                                        <td><?= $volume ?></td>
+                                        <td><?= $your_points ?></td>
+                                        <td><?= $status ?></td>
                                     </tr>
-                                    <tr>
-                                        <td>TEAM BUILDER</td>
-                                        <td>10</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 15 ? 10 : ($CUSTOMER_DETAILS[0]->total_points-5 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-5) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=15){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEAM CONSULTANT</td>
-                                        <td>25</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-15 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>TEAM DIRECTOR</td>
-                                        <td>50</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 75 ? 50 : ($CUSTOMER_DETAILS[0]->total_points-35 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-25) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=75){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>RUBY DIRECTOR</td>
-                                        <td>100</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 150 ? 100 : ($CUSTOMER_DETAILS[0]->total_points-75 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-50) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=150){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>EMERALD DIRECTOR</td>
-                                        <td>250</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>SAPPHIRE DIRECTOR</td>
-                                        <td>500</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>DIAMOND DIRECTOR</td>
-                                        <td>1000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>BLACK DIAMOND DIR</td>
-                                        <td>2500</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>BLUE DIAMOND DIR</td>
-                                        <td>5000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>PINK DIAMOND DIR</td>
-                                        <td>10000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>PRESIDENTIAL DIAMOND</td>
-                                        <td>25000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>GLOBAL DIAMOND</td>
-                                        <td>50000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>CROWN DIAMOND</td>
-                                        <td>100000</td>
-                                        <td><?= $CUSTOMER_DETAILS[0]->total_points > 35 ? 25 : ($CUSTOMER_DETAILS[0]->total_points-10 < 0 ? 0 : $CUSTOMER_DETAILS[0]->total_points-10) ?></td>
-                                        <td><?php if($CUSTOMER_DETAILS[0]->total_points>=35){
-                                            echo '<span class="badge bg-success">Achieved</span>';
-                                        }else{
-                                            echo '<span class="badge bg-secondary">Processing...</span>';
-                                        } ?></td>
-                                    </tr>
+
+                                    <?php $prev = $limit; } ?>
+
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>

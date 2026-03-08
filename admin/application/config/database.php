@@ -7,10 +7,9 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	// for server
-	'username' => $_SERVER['HTTP_HOST'] == 'localhost' ? 'root' : 'root',
-	'password' => $_SERVER['HTTP_HOST'] == 'localhost' ? '' :'',
-	'database' => $_SERVER['HTTP_HOST'] == 'localhost' ? 'sarvashreshthventures' : 'sarvashreshthventures',
+	'username' => $_SERVER['HTTP_HOST'] == 'localhost' ? 'root' : 'u895189384_sarvashreshthv',
+	'password' => $_SERVER['HTTP_HOST'] == 'localhost' ? '' :'Q~8g=uSR',
+	'database' => $_SERVER['HTTP_HOST'] == 'localhost' ? 'sarvashreshthventures' : 'u895189384_sarvashreshthv',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
