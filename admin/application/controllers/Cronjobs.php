@@ -42,8 +42,8 @@ class Cronjobs extends CI_Controller {
 
             $userid = $user->customer_id;
 
-            $left_total  = $user->left_activation_bv + $user->left_repurchase_bv;
-            $right_total = $user->right_activation_bv + $user->right_repurchase_bv;
+            $left_total  = $user->left_activation_pv + $user->left_repurchase_bv;
+            $right_total = $user->right_activation_pv + $user->right_repurchase_bv;
 
             $left_paid  = $user->left_paid_bv;
             $right_paid = $user->right_paid_bv;
@@ -63,6 +63,7 @@ class Cronjobs extends CI_Controller {
 
     public function calculate_team_bonus($userid,$weak_leg)
     {
+        $weak_leg;
         $package = $this->db->query("
             SELECT *
             FROM package_master
@@ -147,6 +148,12 @@ class Cronjobs extends CI_Controller {
 
     public function credit_wallet($userid,$amount,$percent)
     {
+        $this->db->query("
+			UPDATE customer_master 
+			SET main_wallet = main_wallet + $amount
+			WHERE customer_id='$userid'
+		");
+
         $data = [
             'customer_id'=>$userid,
             'credit'=>$amount,
