@@ -63,21 +63,40 @@ class Cronjobs extends CI_Controller {
 
     public function calculate_team_bonus($userid,$weak_leg)
     {
-        $weak_leg;
-        $package = $this->db->query("
+        $user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
+
+        // Get ALL eligible slabs based on BV
+        $packages = $this->db->query("
             SELECT *
             FROM package_master
             WHERE lesserleg_volume <= '$weak_leg'
-            ORDER BY lesserleg_volume DESC
-            LIMIT 1
-        ")->row();
+            ORDER BY lesserleg_volume ASC
+        ")->result();
 
-        if(empty($package)){
+        if(empty($packages)){
             return;
         }
 
-        $percent = $package->matching_income_percentage;
-        $cap = $package->weekly_capping;
+        $eligible_package = null;
+
+        foreach($packages as $pkg){
+
+            // Check package eligibility
+            if($user->package_id >= $pkg->package_id){
+                $eligible_package = $pkg; // keep upgrading
+            }else{
+                break; // stop if package not eligible
+            }
+        }
+
+        if(empty($eligible_package)){
+            // ❌ No eligible package → flush BV
+            $this->flush_bv($userid,$weak_leg,"Package not eligible");
+            return;
+        }
+
+        $percent = $eligible_package->matching_income_percentage;
+        $cap = $eligible_package->weekly_capping;
 
         $bonus = ($weak_leg * $percent) / 100;
 
@@ -85,43 +104,10 @@ class Cronjobs extends CI_Controller {
             $bonus = $cap;
         }
 
-        $status = "PAID";
-        $income = $bonus;
+        // ✅ Credit wallet
+        $this->credit_wallet($userid,$bonus,$percent);
 
-        // eligibility check
-        if(!$this->check_income_eligibility($userid,$package->id)){
-            $status = "FLUSHED";
-            $income = 0;
-        }else{
-            // flush record
-            $this->Crud->ciCreate("bv_flush_history",[
-                'customer_id'=>$userid,
-                'flush_bv'=>$weak_leg,
-                'remark'=>"Not eligible for income",
-                'date'=>date('Y-m-d H:i:s')
-            ]);
-
-        }
-
-         // Credit wallet
-        if($status == "PAID"){
-
-            $this->db->query("
-                UPDATE customer_master
-                SET main_wallet = main_wallet + $bonus
-                WHERE customer_id='$userid'
-            ");
-
-            // transaction entry
-            $this->Crud->ciCreate("customer_transaction_master",[
-                'customer_id'=>$userid,
-                'credit'=>$bonus,
-                'remark'=>"Team Sales Bonus ($percent%)",
-                'vc_date'=>date('Y-m-d H:i:s')
-            ]);
-        }
-
-        // deduct matched BV
+        // ✅ Deduct BV
         $this->db->query("
             UPDATE customer_master
             SET
@@ -131,19 +117,23 @@ class Cronjobs extends CI_Controller {
         ");
     }
 
-    public function check_income_eligibility($userid,$required_package)
+    public function flush_bv($userid,$bv,$reason)
     {
-        $user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
+        $this->Crud->ciCreate("bv_flush_history",[
+            'customer_id'=>$userid,
+            'flush_bv'=>$bv,
+            'remark'=>$reason,
+            'date'=>date('Y-m-d H:i:s')
+        ]);
 
-        if($user->status != 1){
-            return false;
-        }
-
-        if($user->package_id < $required_package){
-            return false;
-        }
-
-        return true;
+        // Still deduct BV (important)
+        $this->db->query("
+            UPDATE customer_master
+            SET
+            left_paid_bv = left_paid_bv + $bv,
+            right_paid_bv = right_paid_bv + $bv
+            WHERE customer_id='$userid'
+        ");
     }
 
     public function credit_wallet($userid,$amount,$percent)
