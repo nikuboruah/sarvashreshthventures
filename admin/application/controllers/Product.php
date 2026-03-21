@@ -306,6 +306,7 @@ class Product extends CI_Controller
                     'final_price' => $fPrice,
                     'gst' => $gst ?? 0,
                     'pv' => $pv,
+                    'product_valume_point' => $vPoint,
                     'product_image_one' => $dataInfo[0]['file_name'],
                     'product_image_two' => $dataInfo[1]['file_name'],
                     'product_image_three' => $dataInfo[2]['file_name'],
@@ -583,6 +584,7 @@ class Product extends CI_Controller
 							'final_price' => $fPrice,
 							'gst' => $gst,
 							'pv' => $pv,
+							'product_valume_point' => $vPoint,
 							'product_image_one' => ($dataInfo[0]?$dataInfo[0]['file_name']:''),
 							'product_image_two' => ($dataInfo[1]?$dataInfo[1]['file_name']:''),
 							'product_image_three' =>($dataInfo[2]?$dataInfo[2]['file_name']:''),
@@ -601,7 +603,8 @@ class Product extends CI_Controller
 						'discount' => $dist,
 						'final_price' => $fPrice,
 						'gst' => $gst,
-						'pv' => $pv,            
+						'pv' => $pv,
+						'product_valume_point' => $vPoint,            
 						);
 					}
 				if ($this->Crud->ciUpdate('product_master', $data,$condition)) {
@@ -839,7 +842,7 @@ class Product extends CI_Controller
 		];
 
 		if($this->Crud->ciUpdate("order_master", $data, "`id` = '$id'")){
-			if($tbv > 0 AND $p_status == 1){
+			if($tbv > 0){
 				$this->add_bv_to_upline($cust_id, $tbv);
 			}
 			echo 1;
@@ -880,6 +883,59 @@ class Product extends CI_Controller
 
 			// Continue recursion to next upline
 			$this->add_bv_to_upline($upline_id, $tbv);
+		}
+	}
+
+	public function take_payment_activation(){
+		extract($_POST);
+
+		$data = [
+			'payment_status' => 1,
+			'approval_date' => date('Y-m-d')
+		];
+
+		if($this->Crud->ciUpdate("order_master", $data, "`id` = '$id'")){
+			if($tbv > 0){
+				$this->add_bv_to_upline_activation($cust_id, $tbv);
+			}
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
+
+	public function add_bv_to_upline_activation($userid, $tbv)
+	{
+		// Get current user's sponsor/upline details
+		$sql = $this->db->query("SELECT * FROM `customer_master` WHERE `customer_id` = ?", array($userid));
+		$result = $sql->result();
+
+		if (!$result) return;
+
+		$upline_id = $result[0]->dowline_id;
+		$position  = (int) $result[0]->position;
+
+		if ($upline_id) {
+			// Fetch upline details
+			$sponsor_sql = $this->db->query("SELECT * FROM `customer_master` WHERE `customer_id` = ?", array($upline_id));
+			$sponsor_details = $sponsor_sql->result();
+			if (!$sponsor_details) return;
+
+			// Update side BV + PV + Rank PV
+			if ($position === 0) {
+				$this->db->where('customer_id', $upline_id)
+						->update('customer_master', [
+							'left_activation_pv' => $sponsor_details[0]->left_activation_pv + $tbv
+						]);
+			} else {
+				$this->db->where('customer_id', $upline_id)
+						->update('customer_master', [
+							'right_activation_pv' => $sponsor_details[0]->right_activation_pv + $tbv
+						]);
+			}
+
+			// Continue recursion to next upline
+			$this->add_bv_to_upline_activation($upline_id, $tbv);
 		}
 	}
 

@@ -234,118 +234,228 @@ class Welcome extends CI_Controller
 		}
 	}
 
+	// public function activate_member_by_bv(){
+	// 	extract($_POST);
+	// 	$userid = $this->session->userdata('aiplUserId');
+
+	// 	$isActive = $this->Crud->ciCount("customer_master", "`customer_id` = '$userid' AND `status` = '1'");
+
+	// 	if($isActive > 0){
+	// 		$this->session->set_flashdata("success", "You already activate your account");
+	// 		redirect('products');
+	// 	}else{
+	// 		if($payment_method == 'Cash'){
+	// 			$str_result = '0123456789';
+	// 			$orderid = 'ORDR'.substr(str_shuffle($str_result), 0, 5).time();
+				
+	// 			$data = [
+	// 				'package_id' => $packid,
+	// 				'activation_status' => 0,
+	// 				'requested_date' => date('Y-m-d H:i:s'),
+	// 			];
+
+	// 			$data2 = [
+	// 				'order_id' => $orderid,
+	// 				'bv' => $tbv,	
+	// 				'customer_id' => $userid,
+	// 				'grand_total' => $gtotal,
+	// 				'address' => $address,
+	// 				'payment_mode' => $payment_method,
+	// 				'payment_status' => 1,
+	// 				'added_on' => date('Y-m-d H:i:s'),
+	// 			];
+		
+	// 			if($this->Crud->ciUpdate("customer_master", $data, "`customer_id` = '$userid'")){
+	// 				$cart = $this->Crud->ciRead("cart_master", "`user_id` = '$userid' AND `status` = '0'");
+	// 				foreach($cart as $item){
+	// 					$productID = $item->product_id;
+	// 					$product_price = $this->Crud->ciRead("product_master", "`product_id` = '$productID'")[0]->final_price;
+
+	// 					$this->Crud->ciUpdate("cart_master", array(
+	// 						'order_id' => $orderid,
+	// 						'status' => 1,
+	// 						'price' => $product_price,
+	// 						'purchase_type' => 1,
+	// 					), "`user_id` = '$userid' AND `status` = '0' AND `purchase_type` != '3' AND `product_id` = '$productID'");
+	// 				}
+	// 				$this->Crud->ciCreate("order_master", $data2);
+	// 				redirect('activation_request');
+	// 			}else{
+	// 				$this->session->set_flashdata("danger", "Something went wrong. Try again.");
+	// 			}
+
+	// 			redirect('products');
+	// 		}else if($payment_method == 'Bank'){
+	// 			$str_result = '0123456789';
+	// 			$orderid = 'ORDR'.substr(str_shuffle($str_result), 0, 5).time();
+
+	// 			$config['upload_path'] = FCPATH . 'uploads/member/proof/';
+	// 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+	// 			$config['max_size'] = 2048;
+	// 			$config['max_width'] = 5000;
+	// 			$config['encrypt_name'] = TRUE;
+	// 			$config['max_height'] = 5000;
+	// 			$this->upload->initialize($config);
+	// 			if (!$this->upload->do_upload('proof')) {
+	// 				$error = array('error' => $this->upload->display_errors());
+	// 				$this->session->set_flashdata('warning', $this->upload->display_errors());
+	// 			} else {
+	// 				$image_metadata = $this->upload->data();
+	// 				$proof_image = $image_metadata['file_name'];
+	// 			}
+				
+	// 			$data = [
+	// 				'package_id' =>$packid,
+	// 				'activation_status' => 0,
+	// 				'requested_date' => date('Y-m-d H:i:s'),
+	// 				'transaction_no' => $tranno,
+	// 				'proof' => $proof_image,
+	// 			];
+
+	// 			$data2 = [
+	// 				'order_id' => $orderid,
+	// 				'bv' => $tbv,
+	// 				'customer_id' => $userid,
+	// 				'grand_total' => $gtotal,
+	// 				'address' => $address,
+	// 				'payment_mode' => $payment_method,
+	// 				'transaction_no' => $tranno,
+	// 				'proof' => $proof_image,
+	// 				'added_on' => date('Y-m-d H:i:s'),
+	// 			];
+		
+	// 			if($this->Crud->ciUpdate("customer_master", $data, "`customer_id` = '$userid'")){
+	// 				$cart = $this->Crud->ciRead("cart_master", "`user_id` = '$userid' AND `status` = '0'");
+	// 				foreach($cart as $item){
+	// 					$productID = $item->product_id;
+	// 					$product_price = $this->Crud->ciRead("product_master", "`product_id` = '$productID'")[0]->final_price;
+
+	// 					$this->Crud->ciUpdate("cart_master", array(
+	// 						'order_id' => $orderid,
+	// 						'status' => 1,
+	// 						'price' => $product_price,
+	// 						'purchase_type' => 1,
+	// 					), "`user_id` = '$userid' AND `status` = '0' AND `purchase_type` != '3' AND `product_id` = '$productID'");
+	// 				}
+	// 				$this->Crud->ciCreate("order_master", $data2);
+	// 				redirect('activation_request');
+	// 			}else{
+	// 				$this->session->set_flashdata("danger", "Something went wrong. Try again.");
+	// 			}
+
+	// 			redirect('products');
+	// 		}
+	// 	}
+	// }
+
 	public function activate_member_by_bv(){
 		extract($_POST);
 		$userid = $this->session->userdata('aiplUserId');
 
-		$isActive = $this->Crud->ciCount("customer_master", "`customer_id` = '$userid' AND `status` = '1'");
+		$user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
 
-		if($isActive > 0){
-			$this->session->set_flashdata("success", "You already activate your account");
+		if($user->status == 1){
+			$this->session->set_flashdata("success","You already activated your account");
 			redirect('products');
-		}else{
-			if($payment_method == 'Cash'){
-				$str_result = '0123456789';
-				$orderid = 'ORDR'.substr(str_shuffle($str_result), 0, 5).time();
-				
-				$data = [
-					'package_id' => $packid,
-					'activation_status' => 0,
-					'requested_date' => date('Y-m-d H:i:s'),
-				];
-
-				$data2 = [
-					'order_id' => $orderid,
-					'bv' => $tbv,	
-					'customer_id' => $userid,
-					'grand_total' => $gtotal,
-					'address' => $address,
-					'payment_mode' => $payment_method,
-					'payment_status' => 1,
-					'added_on' => date('Y-m-d H:i:s'),
-				];
-		
-				if($this->Crud->ciUpdate("customer_master", $data, "`customer_id` = '$userid'")){
-					$cart = $this->Crud->ciRead("cart_master", "`user_id` = '$userid' AND `status` = '0'");
-					foreach($cart as $item){
-						$productID = $item->product_id;
-						$product_price = $this->Crud->ciRead("product_master", "`product_id` = '$productID'")[0]->final_price;
-
-						$this->Crud->ciUpdate("cart_master", array(
-							'order_id' => $orderid,
-							'status' => 1,
-							'price' => $product_price,
-							'purchase_type' => 1,
-						), "`user_id` = '$userid' AND `status` = '0' AND `purchase_type` != '3' AND `product_id` = '$productID'");
-					}
-					$this->Crud->ciCreate("order_master", $data2);
-					redirect('activation_request');
-				}else{
-					$this->session->set_flashdata("danger", "Something went wrong. Try again.");
-				}
-
-				redirect('products');
-			}else if($payment_method == 'Bank'){
-				$str_result = '0123456789';
-				$orderid = 'ORDR'.substr(str_shuffle($str_result), 0, 5).time();
-
-				$config['upload_path'] = FCPATH . 'uploads/member/proof/';
-				$config['allowed_types'] = 'gif|jpg|png|jpeg';
-				$config['max_size'] = 2048;
-				$config['max_width'] = 5000;
-				$config['encrypt_name'] = TRUE;
-				$config['max_height'] = 5000;
-				$this->upload->initialize($config);
-				if (!$this->upload->do_upload('proof')) {
-					$error = array('error' => $this->upload->display_errors());
-					$this->session->set_flashdata('warning', $this->upload->display_errors());
-				} else {
-					$image_metadata = $this->upload->data();
-					$proof_image = $image_metadata['file_name'];
-				}
-				
-				$data = [
-					'package_id' =>$packid,
-					'activation_status' => 0,
-					'requested_date' => date('Y-m-d H:i:s'),
-					'transaction_no' => $tranno,
-					'proof' => $proof_image,
-				];
-
-				$data2 = [
-					'order_id' => $orderid,
-					'bv' => $tbv,
-					'customer_id' => $userid,
-					'grand_total' => $gtotal,
-					'address' => $address,
-					'payment_mode' => $payment_method,
-					'transaction_no' => $tranno,
-					'proof' => $proof_image,
-					'added_on' => date('Y-m-d H:i:s'),
-				];
-		
-				if($this->Crud->ciUpdate("customer_master", $data, "`customer_id` = '$userid'")){
-					$cart = $this->Crud->ciRead("cart_master", "`user_id` = '$userid' AND `status` = '0'");
-					foreach($cart as $item){
-						$productID = $item->product_id;
-						$product_price = $this->Crud->ciRead("product_master", "`product_id` = '$productID'")[0]->final_price;
-
-						$this->Crud->ciUpdate("cart_master", array(
-							'order_id' => $orderid,
-							'status' => 1,
-							'price' => $product_price,
-							'purchase_type' => 1,
-						), "`user_id` = '$userid' AND `status` = '0' AND `purchase_type` != '3' AND `product_id` = '$productID'");
-					}
-					$this->Crud->ciCreate("order_master", $data2);
-					redirect('activation_request');
-				}else{
-					$this->session->set_flashdata("danger", "Something went wrong. Try again.");
-				}
-
-				redirect('products');
-			}
 		}
+
+		// 👉 Add previous pending BV
+		$total_bv = $tbv + $user->pending_bv;
+
+		// 👉 Find package based on TOTAL BV
+		$package = $this->db->query("
+			SELECT * FROM package_master
+			WHERE pv <= '$total_bv'
+			ORDER BY pv DESC
+			LIMIT 1
+		")->row();
+
+		$package_id = NULL;
+		$remaining_bv = $total_bv;
+
+		if(!empty($package)){
+			$package_id = $package->package_id;
+			$remaining_bv = 0;
+		}
+
+		// Generate order id
+		$str_result = '0123456789';
+		$orderid = 'ORDR'.substr(str_shuffle($str_result), 0, 5).time();
+
+		// 👉 CUSTOMER UPDATE DATA
+		$data = [
+			'package_id'        => $package_id, // will be NULL if not qualified
+			'pending_bv'        => $remaining_bv,
+			'activation_status' => ($package_id > 0 ? 0 : 1), // still request mode
+			'requested_date'    => ($package_id > 0 ? date('Y-m-d H:i:s') : NULL),
+		];
+
+		// 👉 ORDER DATA
+		$data2 = [
+			'order_id'     => $orderid,
+			'bv'           => $tbv,
+			'customer_id'  => $userid,
+			'grand_total'  => $gtotal,
+			'address'      => $address,
+			'payment_mode' => $payment_method,
+			'payment_status' =>  ($package_id > 0 ? 1 : 0),
+			'added_on'     => date('Y-m-d H:i:s'),
+		];
+
+		// BANK DETAILS
+		if($payment_method == 'Bank'){
+
+			$config['upload_path']   = FCPATH . 'uploads/member/proof/';
+			$config['allowed_types'] = 'jpg|jpeg|png';
+			$config['encrypt_name'] = TRUE;
+
+			$this->upload->initialize($config);
+
+			if($this->upload->do_upload('proof')){
+				$img = $this->upload->data();
+				$data['proof'] = $img['file_name'];
+				$data2['proof'] = $img['file_name'];
+			}
+
+			$data['transaction_no'] = $tranno;
+			$data2['transaction_no'] = $tranno;
+		}
+
+		// 👉 UPDATE CUSTOMER
+		if($this->Crud->ciUpdate("customer_master",$data,"customer_id='$userid'")){
+
+			// 👉 UPDATE CART
+			$cart = $this->Crud->ciRead("cart_master","user_id='$userid' AND status=0");
+
+			foreach($cart as $item){
+
+				$productID = $item->product_id;
+
+				$product_price = $this->Crud->ciRead("product_master","product_id='$productID'")[0]->final_price;
+
+				$this->Crud->ciUpdate("cart_master",[
+					'order_id' => $orderid,
+					'status'   => 1,
+					'price'    => $product_price,
+					'purchase_type' => 1
+				],"user_id='$userid' AND product_id='$productID' AND status=0");
+			}
+
+			// 👉 CREATE ORDER
+			$this->Crud->ciCreate("order_master",$data2);
+
+			// 👉 AUTO MESSAGE
+			if($package_id > 0){
+				$this->session->set_flashdata("success","Package achieved successfully!");
+			}else{
+				$this->session->set_flashdata("warning","BV saved! Add more BV to activate package.");
+			}
+
+			redirect('activation_request');
+		}
+
+		$this->session->set_flashdata("danger","Something went wrong");
+		redirect('products');
 	}
 
 	public function activation_request(){

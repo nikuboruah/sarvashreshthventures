@@ -138,6 +138,14 @@
                                                 placeholder="PV" name="pv" id="pv" required>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label>Product Volume Point</label>
+                                            <input type="number" value="<?=$pr['product_valume_point'];?>" step="0.01" class="form-control"
+                                                placeholder="Volume Point" max="1" name="vPoint" required id="vPoint">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12 text-right">
                                     <div class="kt-portlet__foot">

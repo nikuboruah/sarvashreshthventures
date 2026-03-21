@@ -213,18 +213,18 @@
                                                         Payment Mode :
                                                         <?= $data->transaction_no == '' ? 'Cash' : 'UPI/Debit Card/Credit Card/Cheque/Transfer' ?><br />
                                                         <?php if($data->activation_status == 0){ ?>
-                                                        <?php if($data->transaction_no != ''){ ?>
-                                                        Transaction ID : <?= $data->transaction_no ?><br />
-                                                        Transaction Proof : <a
-                                                            href="<?php echo base_url('../uploads/member/proof/'.$data->proof ) ?>"
-                                                            target="_blank"><i class="fa fa-image h2"></i></a></br />
-                                                        <?php } ?>
-                                                        <button class="btn btn-success mb-3"
-                                                            onclick="activateNow('<?=  $data->customer_id ?>')">Activate
-                                                            Now</button>
-                                                        <button class="btn btn-danger mb-3"
-                                                            id="<?= $data->customer_id ?>"
-                                                            onclick="removeUser(this.id)">Remove</button>
+                                                            <?php if($data->transaction_no != ''){ ?>
+                                                            Transaction ID : <?= $data->transaction_no ?><br />
+                                                            Transaction Proof : <a
+                                                                href="<?php echo base_url('../uploads/member/proof/'.$data->proof ) ?>"
+                                                                target="_blank"><i class="fa fa-image h2"></i></a></br />
+                                                            <?php } ?>
+                                                            <button class="btn btn-success mb-3"
+                                                                onclick="activateNow('<?=  $data->customer_id ?>')">Activate
+                                                                Now</button>
+                                                            <button class="btn btn-danger mb-3"
+                                                                id="<?= $data->customer_id ?>"
+                                                                onclick="removeUser(this.id)">Remove</button>
                                                         <?php }else if($data->activation_status == 1 AND $data->transaction_no != '' ){ ?>
                                                         Transaction ID : <?= $data->transaction_no ?><br />
                                                         Transaction Proof : <a

@@ -87,7 +87,7 @@ class Dashboard extends CI_Controller {
 		extract($_POST);
 		$userid = $this->session->userdata('aiplUserId');
 
-		$isExist = $this->Crud->ciCount("order_master", "`customer_id` = '$userid' AND `order_status` = '0'");
+		$isExist = $this->Crud->ciCount("order_master", "`customer_id` = '$userid' AND `order_status` = '0' AND `payment_status` = '1' AND `approval_date` IS NULL");
 		if($isExist > 0){
 			echo 0;
 		}else{

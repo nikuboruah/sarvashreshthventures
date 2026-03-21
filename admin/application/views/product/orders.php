@@ -86,13 +86,18 @@
                                                             id="<?= $order->id.'~'.$order->customer_id.'~'.$order->bv.'~'.$order->order_status.'~'.$order->grand_total ?>"
                                                             onclick="takePayment(this)" class="btn btn-warning">Payment
                                                             Received</button>
+                                                        <?php } else if($order->payment_status == 0 AND $order->order_status == 0){ ?>
+                                                        <button
+                                                            id="<?= $order->id.'~'.$order->customer_id.'~'.$order->bv.'~'.$order->order_status.'~'.$order->grand_total ?>"
+                                                            onclick="takePaymentActivation(this)" class="btn btn-warning">Payment
+                                                            Received</button>
                                                         <?php }else{ ?>
                                                         Received
                                                         <?php } ?>
                                                     </td>
                                                     <td>
                                                         <?php if($order->delivery_status == 0){ ?>
-                                                        <button onclick="deliverNow('<?= $order->id ?>')"
+                                                        <button onclick="deliverNow('<?= $order->id.'~'.$order->payment_status ?>')"
                                                             class="btn btn-success">Delivered</button>
                                                         <?php }else{ ?>
                                                         Delivered
@@ -200,14 +205,48 @@
             }
         }
 
+        function takePaymentActivation(x){
+            let d = x.id.split('~')
+            let result = confirm("Are you sure you want to approve payment.");
+
+            if (result) {
+                $.ajax({
+                    url: '<?php echo base_url('product/take_payment_activation') ?>',
+                    method: 'POST',
+                    data: {
+                        id: d[0],
+                        cust_id: d[1],
+                        tbv: d[2],
+                        p_status: d[3],
+                        amount: d[4],
+                    },
+
+                    success: function(data) {
+                        if (data == 1) {
+                            alert('Payment received.')
+                            location.reload()
+                        } else {
+                            alert('Something went wrong. Try again.')
+                        }
+                    }
+                })
+            }
+        }
+
         function deliverNow(x) {
+            let d = x.split('~');
+            if(d[1] == 0){
+                confirm("This order cannot be delivered until payment is completed.");
+                return;  
+            }
+
             let result = confirm("Are you sure you want to change delivery status.");
 
             if (result) {
                 $.ajax({
                     url: '<?php echo base_url('product/deliver_now') ?>',
                     method: 'POST',
-                    data: 'id=' + x,
+                    data: 'id=' + d[0],
 
                     success: function(data) {
                         if (data == 1) {

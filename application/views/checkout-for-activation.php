@@ -384,15 +384,13 @@ $(document).ready(function() {
 
         success: function(data) {
             if (data == 0) {
-                $('#activate').prop('disabled', true);
                 $('#msg')
                     .html(
-                        'Note : Product value alone isn\'t adequate to activate you. Add more Product Value (PV)'
+                        'Your BV is stored. Once it reaches required level, package will auto activate.'
                     )
                     .addClass('text-danger')
                     .css('font-size', '16px');
             } else {
-                $('#activate').prop('disabled', false);
                 $('#msg').html('');
                 $('#packid').val(data);
             }

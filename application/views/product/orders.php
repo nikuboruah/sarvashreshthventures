@@ -64,7 +64,7 @@
                                                             onclick="viewItems('<?= $order->order_id ?>')">View</button>
                                                     </td>
                                                     <td><?= $order->customer_id ?><br /><?= $order->name ?></td>
-                                                    <td class="text-center"><?= number_format($order->pv) ?></td>
+                                                    <td class="text-center"><?= number_format($order->bv) ?></td>
                                                     <td class="text-center">
                                                         &#8377;<?= number_format($order->grand_total, 2) ?></td>
                                                     <td class="text-center"><?= $order->payment_mode ?></td>
@@ -79,7 +79,7 @@
                                                     </td>
                                                     <td><?= date('d M Y, h:i A', strtotime($order->added_on)) ?></td>
                                                     <td>
-                                                        <?php if($order->payment_status == 0 AND $order->order_status == 1){ ?>
+                                                        <?php if($order->payment_status == 0){ ?>
                                                         Pending Payment
                                                         <?php }else{ ?>
                                                         Received
