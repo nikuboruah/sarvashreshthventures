@@ -23,6 +23,51 @@
                 <!--end col-->
             </div>
 
+            <?php if($CUSTOMER_DETAILS[0]->status == 0){ ?>
+            <div class="card p-4 mb-3">
+
+                <h5 class="mb-3">Activation Progress</h5>
+
+                <p>
+                    Collected PV: <b><?= number_format($total_bv,2) ?></b> /
+                    Required PV: <b><?= number_format($required_bv,2) ?></b>
+                </p>
+
+                <?php 
+                    $percent = 0;
+                    if($required_bv > 0){
+                        $percent = ($total_bv / $required_bv) * 100;
+                        if($percent > 100) $percent = 100;
+                    }
+                ?>
+
+                            <div style="background:#eee; border-radius:10px; overflow:hidden; height:20px;">
+                                <div style="
+                        width: <?= $percent ?>%;
+                        background: linear-gradient(90deg,#00c853,#64dd17);
+                        height:100%;
+                        text-align:center;
+                        color:#fff;
+                        font-size:12px;
+                        line-height:20px;
+                    ">
+                        <?= round($percent,2) ?>%
+                    </div>
+                </div>
+
+                <?php if($total_bv < $required_bv){ ?>
+                <p class="mt-2 text-danger">
+                    You need <?= number_format($required_bv - $total_bv,2) ?> more PV to activate package.
+                </p>
+                <?php } else { ?>
+                <p class="mt-2 text-success">
+                    🎉 You are eligible for package activation!
+                </p>
+                <?php } ?>
+
+            </div>
+            <?php } ?>
+
             <input type="hidden" id="activationStatus" value="<?= $CUSTOMER_DETAILS[0]->status ?>" class="form-control">
             <div class="card mb-3 p-3">
                 <div class="row">

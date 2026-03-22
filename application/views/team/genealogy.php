@@ -20,7 +20,7 @@
                                     <?=$cname?><br>
                                     <?=$cid?>
                                     <br><span
-                                        class="badge badge-<?=($status==1?"success":($status==0?"warning":($status==2?"dark":"danger")))?>"><?=($status==1?"Active":($status==0?"Inactive":($status==2?"Block":"Reject")))?></span>
+                                        class="badge bg-<?=($status==1?"success":($status==0?"warning":($status==2?"dark":"danger")))?>"><?=($status==1?"Active":($status==0?"Inactive":($status==2?"Block":"Reject")))?></span>
                                 </div>
 
 
@@ -57,7 +57,7 @@
                                    </div>
                                    <div class="member-details text-center" >'.
                                      ' [<span class="text-danger">L</span>]<br><br>'.
-                                      '<span class="badge badge-primary">Vacancy</span>'.
+                                      '<span class="badge bg-primary">Vacancy</span>'.
 
                                    '</div>
                                    </div></a>';
@@ -69,7 +69,7 @@
                                    </div>
                                    <div class="member-details text-center" >'.
                                      ' [<span class="text-success">R</span>]<br><br>'.
-                                      '<span class="badge badge-primary">Vacancy</span>'.
+                                      '<span class="badge bg-primary">Vacancy</span>'.
 
                                    '</div>
                                    </div></a>';
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="member-details text-center" >'.
                                       ' [<span class="text-danger">L</span>]<br><br>'.
-                                      '<span class="badge badge-primary">Vacancy</span>'.                        '</div>
+                                      '<span class="badge bg-primary">Vacancy</span>'.                        '</div>
                                     </div>
                                  </a>'; 
                                         $uc.='<li><a href="javascript:void(0);">
@@ -106,7 +106,7 @@
                                         <div class="member-details text-center" >'.
                                            $rs['user_name'].' [<span class="text-success">R</span>]<br>'.
                                            $rs['customer_id'].'<br>'.
-                                           '<span class="badge badge-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
+                                           '<span class="badge bg-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
 
                                         '</div>
                                         </div>
@@ -128,7 +128,7 @@
                                     <div class="member-details text-center" >'.
                                            $rs['user_name'].' [<span class="text-danger">L</span>]<br>'.
                                            $rs['customer_id'].'<br>'.
-                                           '<span class="badge badge-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
+                                           '<span class="badge bg-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
 
                                         '</div>
                                     </div>
@@ -144,7 +144,7 @@
                                 <div class="member-details text-center" >'.
                                   ' [<span class="text-success">R</span>]<br>'.
                                   '<br>'.
-                                  '<span class="badge badge-primary">Vacancy</span>'.
+                                  '<span class="badge bg-primary">Vacancy</span>'.
                                 '</div>
                                 </div>
                              </a>';  
@@ -164,7 +164,7 @@
                                         <div class="member-details text-center" >'.
                                            $rs['user_name'].' ['. ($rs['position'] == 1 ? '<span class="text-success">R</span>' : ($rs['position'] == 0 ? '<span class="text-danger">L</span>' : '')).']<br>'.
                                            $rs['customer_id'].'<br>'.
-                                           '<span class="badge badge-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
+                                           '<span class="badge bg-'.($rs['status']==1?"success":($rs['status']==0?"warning":($rs['status']==2?"dark":"danger"))).'">'.($rs['status']==1?"Active":($rs['status']==0?"Inactive":($rs['status']==2?"Block":"Reject"))).'</span>'.
 
                                         '</div>
                                     </div>
@@ -204,7 +204,7 @@
                                             <?=$t['name']?> [<span class="text-danger">L</span>]<br>
                                             <?=$t['customer_id']?><br>
                                             <span
-                                                class="badge badge-<?=($t['status']==1?"success":($t['status']==0?"warning":($t['status']==2?"dark":"danger")))?>"><?=($t['status']==1?"Active":($t['status']==0?"Inactive":($t['status']==2?"Block":"Reject")))?></span>
+                                                class="badge bg-<?=($t['status']==1?"success":($t['status']==0?"warning":($t['status']==2?"dark":"danger")))?>"><?=($t['status']==1?"Active":($t['status']==0?"Inactive":($t['status']==2?"Block":"Reject")))?></span>
 
                                             '
                                         </div>
@@ -220,7 +220,7 @@
                                         </div>
                                         <div class="member-details text-center">
                                             [<span class="text-success">R</span>]<br><br>
-                                            <span class="badge badge-primary">Vacancy</span>
+                                            <span class="badge bg-primary">Vacancy</span>
                                         </div>
                                     </div>
                                 </a>
@@ -238,7 +238,7 @@
                                         <div class="member-details text-center">
                                             [<span class="text-success">R</span>]<br>
                                             <br>
-                                            <span class="badge badge-primary">Vacancy</span>
+                                            <span class="badge bg-primary">Vacancy</span>
                                         </div>
                                     </div>
                                 </a>
@@ -253,7 +253,7 @@
                                             <?=$t['name']?> [<span class="text-danger">L</span>]<br>
                                             <?=$t['customer_id']?><br>
                                             <span
-                                                class="badge badge-<?=($t['status']==1?"success":($t['status']==0?"warning":($t['status']==2?"dark":"danger")))?>"><?=($t['status']==1?"Active":($t['status']==0?"Inactive":($t['status']==2?"Block":"Reject")))?></span>
+                                                class="badge bg-<?=($t['status']==1?"success":($t['status']==0?"warning":($t['status']==2?"dark":"danger")))?>"><?=($t['status']==1?"Active":($t['status']==0?"Inactive":($t['status']==2?"Block":"Reject")))?></span>
 
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@
                                             <?= $t['position'] == '1' ? '<span class="text-success">[R]</span>' : ($t['position'] == '0' ? '<span class="text-danger">[L]</span>' : '' ) ?><br>
                                             <?=$t['customer_id']?><br>
                                             <span
-                                                class="badge badge-<?=($t['status']==0?"warning":($t['status']==1?"success":"dark"))?>"><?=($t['status']==0?"Inactive": ($t['status']==1?"Active":"Blocked"))?></span>
+                                                class="badge bg-<?=($t['status']==0?"warning":($t['status']==1?"success":"dark"))?>"><?=($t['status']==0?"Inactive": ($t['status']==1?"Active":"Blocked"))?></span>
 
                                         </div>
                                     </div>

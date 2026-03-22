@@ -584,7 +584,6 @@ class Product extends CI_Controller
 							'final_price' => $fPrice,
 							'gst' => $gst,
 							'pv' => $pv,
-							'product_valume_point' => $vPoint,
 							'product_image_one' => ($dataInfo[0]?$dataInfo[0]['file_name']:''),
 							'product_image_two' => ($dataInfo[1]?$dataInfo[1]['file_name']:''),
 							'product_image_three' =>($dataInfo[2]?$dataInfo[2]['file_name']:''),
@@ -603,8 +602,7 @@ class Product extends CI_Controller
 						'discount' => $dist,
 						'final_price' => $fPrice,
 						'gst' => $gst,
-						'pv' => $pv,
-						'product_valume_point' => $vPoint,            
+						'pv' => $pv,            
 						);
 					}
 				if ($this->Crud->ciUpdate('product_master', $data,$condition)) {

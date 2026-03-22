@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-sm">
                                     <div class="table-responsive">
-                                        <table class="table" id="datatable_1">
+                                        <table class="table table-bordered">
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>#</th>
@@ -52,7 +52,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $id = 0; foreach($EARNINGS as $data){ ?>
+                                                <?php $id = 0; $totalDebit = 0; $totalCredit = 0; foreach($EARNINGS as $data){
+                                                    $totalDebit += $data->debit;
+                                                    $totalCredit += $data->credit;
+                                                ?>
                                                 <tr>
                                                     <td><?= ++$id ?></td>
                                                     <td><?= date('d M Y', strtotime($data->vc_date)) ?></td>
@@ -69,12 +72,22 @@
                                                         Team Sales Bonus
                                                         <?php } ?>
                                                     </td>
-                                                    <td><?= $data->debit ?></td>
-                                                    <td><?= $data->credit ?></td>
+                                                    <td class="text-end"><?= number_format($data->debit,2) ?></td>
+                                                    <td class="text-end"><?= number_format($data->credit,2) ?></td>
                                                     <td><?= $data->remark ?></td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>Total :</td>
+                                                    <th class="text-end font-weight-bold">&#8377;<?= number_format($totalDebit,2) ?></th>
+                                                    <th class="text-end font-weight-bold">&#8377;<?= number_format($totalCredit,2) ?></th>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>

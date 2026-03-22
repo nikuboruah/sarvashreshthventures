@@ -46,7 +46,6 @@
                                                     <th>GST(%)</th>
                                                     <th>Final Price</th>
                                                     <th>PV</th>
-                                                    <th>Product Volume Point</th>
                                                     <th>Images</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -89,7 +88,6 @@
                                                     <td><span><?= $product->gst ?>%</span></td>
                                                     <td>&#8377;<?= number_format($product->final_price,2) ?></td>
                                                     <td><?= $product->pv ?></td>
-                                                    <td><?= $product->product_valume_point ?></td>
                                                     <td>
                                                         <button id="<?= $product->product_id ?>"
                                                             class="btn btn-warning btn-sm"

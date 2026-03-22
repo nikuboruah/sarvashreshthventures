@@ -75,6 +75,27 @@ class Dashboard extends CI_Controller {
 
 		$data['rank_list'] = $this->Crud->ciRead("rank_master", "`id` != '0'");
 
+		$user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
+
+		$total_bv = $user->pending_bv;
+
+		// 👉 Get next package
+		$next_package = $this->db->query("
+			SELECT * FROM package_master
+			WHERE pv >= '$total_bv'
+			ORDER BY pv ASC
+			LIMIT 1
+		")->row();
+
+		if($next_package){
+			$required_bv = $next_package->pv;
+		}else{
+			$required_bv = $total_bv; // max achieved
+		}
+
+		$data['total_bv'] = $total_bv;
+		$data['required_bv'] = $required_bv;
+
 		$this->load->view('user/layouts/header');
 		$this->load->view('user/layouts/bar');
 		$this->load->view('user/layouts/sub-header');
