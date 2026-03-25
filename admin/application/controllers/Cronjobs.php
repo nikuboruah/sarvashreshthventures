@@ -64,6 +64,8 @@ class Cronjobs extends CI_Controller {
     {
         $user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
 
+        $user_package = (int)$user->package_id;
+
         /* =============================
         CASE 1: Weak leg below 1000
         ============================== */
@@ -75,28 +77,24 @@ class Cronjobs extends CI_Controller {
             return;
         }
 
-         /* =============================
-        CASE 2: 1000 to 5000 → Flat 8%
+        /* =============================
+        CASE 2: NO PACKAGE → 8% (NO LIMIT)
         ============================== */
-        if($weak_leg >= 1000 && $weak_leg <= 5000){
+        if(is_null($user_package)){
 
             $percent = 8;
             $bonus = ($weak_leg * $percent) / 100;
 
-            // Credit wallet
             $this->credit_wallet($userid,$bonus,$percent);
-
-            // Deduct BV
             $this->deduct_bv($userid,$weak_leg);
 
             return;
         }
 
-        /* =============================
-        CASE 3: Above 5000 → Package Wise
-        ============================== */
 
-        // Get ALL eligible slabs based on BV
+        /* =============================
+        CASE 3: PACKAGE HOLDERS
+        ============================== */
         $packages = $this->db->query("
             SELECT *
             FROM package_master
