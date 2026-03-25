@@ -36,11 +36,10 @@ class Cronjobs extends CI_Controller {
 
     public function weekly_closing()
     {
-        $users = $this->Crud->ciRead("customer_master","status=1");
-
+        $users = $this->Crud->ciRead("customer_master","id<>0");
         foreach($users as $user){
 
-            $userid = $user->customer_id;
+            echo $userid = $user->customer_id;
 
             $left_total  = $user->left_activation_pv + $user->left_repurchase_bv;
             $right_total = $user->right_activation_pv + $user->right_repurchase_bv;
@@ -65,6 +64,38 @@ class Cronjobs extends CI_Controller {
     {
         $user = $this->Crud->ciRead("customer_master","customer_id='$userid'")[0];
 
+        /* =============================
+        CASE 1: Weak leg below 1000
+        ============================== */
+        if($weak_leg < 1000){
+
+            // ❌ No income
+            $this->flush_bv($userid,$weak_leg,"Below 1000 BV - No Income");
+
+            return;
+        }
+
+         /* =============================
+        CASE 2: 1000 to 5000 → Flat 8%
+        ============================== */
+        if($weak_leg >= 1000 && $weak_leg <= 5000){
+
+            $percent = 8;
+            $bonus = ($weak_leg * $percent) / 100;
+
+            // Credit wallet
+            $this->credit_wallet($userid,$bonus,$percent);
+
+            // Deduct BV
+            $this->deduct_bv($userid,$weak_leg);
+
+            return;
+        }
+
+        /* =============================
+        CASE 3: Above 5000 → Package Wise
+        ============================== */
+
         // Get ALL eligible slabs based on BV
         $packages = $this->db->query("
             SELECT *
@@ -74,6 +105,7 @@ class Cronjobs extends CI_Controller {
         ")->result();
 
         if(empty($packages)){
+            $this->flush_bv($userid,$weak_leg,"No package slab found");
             return;
         }
 
